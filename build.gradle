@@ -1,0 +1,16 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+allprojects {
+    repositories {
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+dependencies {
+    compile 'io.appium:java-client:4.1.2'
+    compile 'org.testng:testng:6.9.13.6'
+    compile 'com.applitools:eyes-selenium-java:2.54'
+    compile 'com.github.mfinn-HFC:automation_scaffold:1.45'
+}

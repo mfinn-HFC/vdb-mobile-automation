@@ -1,0 +1,15 @@
+
+{
+  "appPath" : "/Users/matt-hfc/Downloads/VDB 2.app",
+  "remote" : "false",
+  "environments" :
+  [
+    {
+      "platformName" : "Android",
+      "app-package" : "",
+      "version" : "54.0",
+      "browserName" : "chrome",
+      "testServer" : "http://mfinn-product:7ee4983b-8e08-40d4-af5f-123958bf8ef9@ondemand.saucelabs.com:80/wd/hub"
+    }
+  ]
+}

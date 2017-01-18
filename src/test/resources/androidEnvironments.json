@@ -1,0 +1,22 @@
+
+{
+  "appPath" : "/Users/matt-hfc/Downloads/vdb-1.6.5.2-20161212-build-324-stage-release.apk",
+  "remote" : "false",
+  "environments" :
+  [
+    {
+      "platformName" : "Android",
+      "app-package" : "",
+      "version" : "54.0",
+      "browserName" : "chrome",
+      "testServer" : "http://mfinn-product:7ee4983b-8e08-40d4-af5f-123958bf8ef9@ondemand.saucelabs.com:80/wd/hub"
+    },
+    {
+      "platform" : "Windows 10",
+      "name" : "VDB Test",
+      "version" : "49.0",
+      "browserName" : "firefox",
+      "testServer" : "http://mfinn-product:7ee4983b-8e08-40d4-af5f-123958bf8ef9@ondemand.saucelabs.com:80/wd/hub"
+    }
+  ]
+}
