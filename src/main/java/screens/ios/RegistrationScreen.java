@@ -114,24 +114,6 @@ public class RegistrationScreen extends IOSBaseScreen {
         touchAction.press(jbtMemberText).moveTo(phoneNumberField).release().perform();
     }
 
-    public void dismissBugReportNotification() {
-        // Dismiss the stupid 'shake to report a bug' notification
-        int i = 0;
-        boolean clicked = false;
-        while(driver.findElements(By.id("OK")).size() == 0) {
-            try {
-                Thread.sleep(0500);
-                driver.findElement(By.id("OK")).click();
-                clicked = true;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            i++;
-            if(i > 30) break;
-            if(clicked) break;
-        }
-    }
-
     // Fill with default values - quick shorthand method
     public void fillRegistrationForm(String email) {
         dismissBugReportNotification();

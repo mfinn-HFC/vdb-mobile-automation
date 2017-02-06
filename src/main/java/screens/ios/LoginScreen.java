@@ -1,5 +1,6 @@
 package screens.ios;
 
+import api.User;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -13,6 +14,8 @@ import screens.IOSBaseScreen;
  * Created by matt-hfc on 12/21/16.
  */
 public class LoginScreen extends IOSBaseScreen {
+
+    public final String defaultPassword = "happiness4U";
 
     public final String usernameEditTextId = "Username or Email Address";
     @iOSFindBy(id = usernameEditTextId)
@@ -88,9 +91,18 @@ public class LoginScreen extends IOSBaseScreen {
             OKNotificationsButton.click();
         }
     }
-    public void login() {
-        usernameEditText.sendKeys("mfinn@happyfuncorp.com");
-        passwordEditText.sendKeys("happiness4U");
+
+    public TermsAndConditionsScreen newUserLogin(User user) {
+        usernameEditText.sendKeys(user.getEmail());
+        passwordEditText.sendKeys(defaultPassword);
         loginButton.click();
+        return new TermsAndConditionsScreen(driver);
+    }
+
+    public SearchScreen defaultLogin() {
+        usernameEditText.sendKeys("mfinn@happyfuncorp.com");
+        passwordEditText.sendKeys(defaultPassword);
+        loginButton.click();
+        return new SearchScreen(driver);
     }
 }

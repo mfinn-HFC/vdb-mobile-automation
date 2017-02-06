@@ -4,6 +4,7 @@ import base.AndroidBaseTest;
 import io.appium.java_client.android.AndroidDriver;
 import junit.framework.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 import screens.android.SearchResultScreen;
@@ -15,11 +16,11 @@ import screens.android.SearchScreen;
 public class BudgetSearchTest extends AndroidBaseTest {
 
     @Test(dataProvider = "drivers")
-    public void budgetSearchTest(AndroidDriver driver) throws InterruptedException {
-        setUp(driver);
+    public void budgetSearchTest(DesiredCapabilities capabilities) throws InterruptedException {
+        setUp(capabilities, this.getClass());
         waitForBugReportPromptToClose();
 
-        loginScreen.login();
+        loginScreen.defaultLogin();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id(loginScreen.usernameEditTextID)));
         SearchScreen searchScreen = new SearchScreen(driver);
 
@@ -32,14 +33,14 @@ public class BudgetSearchTest extends AndroidBaseTest {
         searchScreen.getEditToPriceField().sendKeys("100");
 
         // Keycode for 'Enter' - hideKeyboard was crashing the app in this screen
-        driver.pressKeyCode(66);
-        Thread.sleep(3000);
-        wait.until(ExpectedConditions.elementToBeClickable(searchScreen.getSearchButton()));
+        hideKeyboard();
+        searchScreen.waitForElement(searchScreen.getSearchButton());
         searchScreen.getSearchButton().click();
         SearchResultScreen searchResultScreen = new SearchResultScreen(driver);
 
         wait.until(ExpectedConditions.visibilityOf(searchResultScreen.getRefineSearchHeader()));
+        searchResultScreen.waitForResultsToLoad();
         Assert.assertTrue(searchResultScreen.getSearchResultImages().size() >= 1);
-        Assert.assertTrue(searchResultScreen.getFavoriteButtons().size() >= 1);
+        Assert.assertTrue(searchResultScreen.getFavoriteButtonsGridView().size() >= 1);
     }
 }

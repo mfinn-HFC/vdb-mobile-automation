@@ -4,6 +4,9 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import org.junit.Assert;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.PageFactory;
 import screens.AndroidBaseScreen;
 
@@ -11,6 +14,9 @@ import screens.AndroidBaseScreen;
  * Created by matt-hfc on 12/21/16.
  */
 public class RegistrationScreen extends AndroidBaseScreen {
+
+    private final int maxLoops = 10;
+    private final int waitTime = 0500;
 
     // Taken from 'resource id' value in Appium inspector
     @AndroidFindBy(id = "com.vdbapp.android:id/form_full_name")
@@ -95,25 +101,48 @@ public class RegistrationScreen extends AndroidBaseScreen {
         return passwordConfirmField;
     }
 
-    public void fillField(AndroidElement e, String s) {
-        try
+    public void fillField(AndroidElement e, String s) throws InterruptedException {
+        int n = 0;
+        while(n < maxLoops)
         {
-            driver.hideKeyboard();
-        } catch (Exception ex) { /** If keyboard isn't visible **/ }
-        e.sendKeys(s);
+            try
+            {
+                hideKeyboard();
+                waitForElement(e);
+                e.sendKeys(s);
+                break;
+            }
+            catch (NoSuchElementException ex)
+            {
+                n++;
+                Thread.sleep(waitTime);
+                System.out.println("Was not able to type into element, try: " + n);
+            }
+        }
     }
 
     // Quick android.registration if you don't want to feed custom data
-    public void fillRegistrationForm(String email) {
+    public void fillRegistrationForm(String email) throws InterruptedException {
         fillField(fullNameField, "Test User");
         fillField(companyNameField, "Test Co. Incopo");
         fillField(phoneNumberField, "8675309");
         fillField(streetAddressField, "80 John Street");
         fillField(cityField, "Testington");
         fillField(countryField, "United Tests of America");
+
+        // Must swipe to make fields visible
+        driver.swipe(countryField.getCenter().getX(),
+                    countryField.getCenter().getY(),
+                    streetAddressField.getCenter().getX(),
+                    streetAddressField.getCenter().getY(),
+                    1);
+
         fillField(emailField, email);
         fillField(emailConfirmField, email);
         fillField(passwordField, "happiness4U");
         fillField(passwordConfirmField, "happiness4U");
+
+        hideKeyboard();
+        signUpButton.click();
     }
 }

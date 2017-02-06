@@ -1,5 +1,6 @@
 package screens.android;
 
+import api.User;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -11,6 +12,8 @@ import screens.AndroidBaseScreen;
  * Created by matt-hfc on 12/21/16.
  */
 public class LoginScreen extends AndroidBaseScreen {
+
+    private final String defaultPassword = "happiness4U";
 
     // Taken from 'resource id' value in Appium inspector
     @AndroidFindBy(id = "com.vdbapp.android:id/sign_up")
@@ -61,12 +64,21 @@ public class LoginScreen extends AndroidBaseScreen {
         return forgotPasswordButton;
     }
 
-    public void login() {
+    public void defaultLogin() {
         usernameEditText.sendKeys("mfinn@happyfuncorp.com");
-        driver.hideKeyboard();
-        passwordEditText.sendKeys("happiness4U");
-        // Appium cannot see the android.login button under the keyboard, so it must be dismissed
-        driver.hideKeyboard();
+        hideKeyboard();
+        passwordEditText.sendKeys(defaultPassword);
+        hideKeyboard();
         loginButton.click();
+    }
+
+    public TermsAndConditionsScreen loginNewUser(User user)
+    {
+        usernameEditText.sendKeys(user.getEmail());
+        hideKeyboard();
+        passwordEditText.sendKeys(defaultPassword);
+        hideKeyboard();
+        loginButton.click();
+        return new TermsAndConditionsScreen(driver);
     }
 }

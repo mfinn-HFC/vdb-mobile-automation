@@ -3,23 +3,23 @@ package android.favorite;
 import base.AndroidBaseTest;
 import io.appium.java_client.android.AndroidDriver;
 import junit.framework.Assert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
-import screens.android.FavoriteScreen;
-import screens.android.SearchResultScreen;
-import screens.android.SearchScreen;
-import screens.android.TermsAndConditionsScreen;
+import screens.android.*;
+import util.factory.EyesProvider;
+
 
 /**
  * Created by matt-hfc on 12/14/16.
  */
-public class FavoriteFromSearchTest extends AndroidBaseTest {
+public class FavoriteFromSearchGridViewTest extends AndroidBaseTest {
 
     @Test(dataProvider = "drivers")
-    public void favoriteFromSearchTest(DesiredCapabilities capabilities) throws InterruptedException {
+    public void favoriteFromSearchGridViewTest(DesiredCapabilities capabilities) throws InterruptedException {
         setUp(capabilities, this.getClass());
+        eyesProvider = new EyesProvider(driver, appName, this.getClass().getSimpleName());
+        eyes = eyesProvider.getEyes();
         waitForBugReportPromptToClose();
 
         registerActivateNewUser();
@@ -37,27 +37,23 @@ public class FavoriteFromSearchTest extends AndroidBaseTest {
 
         // Keycode for 'Enter' - hideKeyboard was crashing the app in this screen
         driver.pressKeyCode(66);
-        wait.until(ExpectedConditions.elementToBeClickable(searchScreen.getSearchButton()));
+        searchScreen.waitForElement(searchScreen.getSearchButton());
         searchScreen.getSearchButton().click();
         SearchResultScreen searchResultScreen = new SearchResultScreen(driver);
+
+        wait.until(ExpectedConditions.visibilityOf(searchResultScreen.getRefineSearchHeader()));
         searchResultScreen.waitForResultsToLoad();
 
-        // This test can't work unless there's text in the description
-        String resultDescription = searchResultScreen.getSearchResultDescriptions().get(0).getText();
-        Assert.assertNotNull(resultDescription);
-
         searchResultScreen.getFavoriteButtonsGridView().get(0).click();
+        eyes.checkWindow("One favorite added");
+        searchResultScreen.getFavoriteButtonsGridView().get(1).click();
+        eyes.checkWindow("Two favorites added");
+        searchResultScreen.getFavoriteButtonsGridView().get(1).click();
+        eyes.checkWindow("One favorite removed");
         searchResultScreen.getFavoriteMenuButton().click();
-        FavoriteScreen favoriteScreen = new FavoriteScreen(driver);
-        waitBy.waitByLocator(By.id(favoriteScreen.descriptionsId));
-        System.out.println(favoriteScreen.getDescriptions().get(0).getText());
-        System.out.println(resultDescription);
-        Assert.assertTrue(favoriteScreen.getDescriptions().get(0).getText().contains(resultDescription));
-        favoriteScreen.getLovedCheckboxes().get(0).click();
-        favoriteScreen.getClearButton().click();
-        favoriteScreen.getOkButton().click();
-        favoriteScreen.getOkButton().click();
 
-        Assert.assertFalse(favoriteScreen.getDescriptions().contains(resultDescription));
+        FavoriteScreen favoriteScreen = new FavoriteScreen(driver);
+        favoriteScreen.waitForElement(favoriteScreen.getLovedCheckboxes().get(0));
+        Assert.assertTrue(favoriteScreen.getLovedCheckboxes().size() == 1);
     }
 }

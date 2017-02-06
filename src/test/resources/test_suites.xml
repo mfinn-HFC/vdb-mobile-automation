@@ -1,0 +1,18 @@
+<suite name="iOS Tests" verbose="10">
+    <test name="iOS Smoke Test" preserve-order="true">
+        <classes>
+            <class name="ios.favorite.FavoriteFromSearchGridViewTest"></class>
+            <class name="ios.favorite.FavoriteFromSearchListViewTest"></class>
+            <class name="ios.favorite.FavoriteFromDiamondViewTest"></class>
+            <class name="ios.login.LoginTest"></class>
+            <class name="ios.registration.RegistrationTest"></class>
+            <class name="ios.search.BudgetSearchTest"></class>
+            <class name="ios.search.SearchByShapeTest"></class>
+            <class name="ios.search.VisualCheckOfRefineSearchTest"></class>
+            <class name="ios.smoke.ColorSearchTest"></class>
+            <class name="ios.smoke.mp4PlayTest"></class>
+            <class name="ios.smoke.SupplierAndLocationSearchTest"></class>
+            <class name="ios.smoke.Toggle3xButtonTest"></class>
+        </classes>
+    </test>
+</suite>

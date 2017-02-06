@@ -30,6 +30,9 @@ public class FavoriteScreen extends AndroidBaseScreen {
     @AndroidFindBy(id = "com.vdbapp.android:id/buttonDefaultPositive")
     private AndroidElement okButton;
 
+    @AndroidFindBy(id = "com.vdbapp.android:id/collections_diamond_desc")
+    private List<AndroidElement> diamondDescriptions;
+
     public FavoriteScreen(AndroidDriver driver) {
         this.driver = driver;
         PageFactory.initElements(new AppiumFieldDecorator(this.driver), this);
@@ -53,5 +56,9 @@ public class FavoriteScreen extends AndroidBaseScreen {
 
     public AndroidElement getOkButton() {
         return okButton;
+    }
+
+    public List<AndroidElement> getDiamondDescriptions() {
+        return diamondDescriptions;
     }
 }

@@ -4,6 +4,7 @@ import base.iOSBaseTest;
 import io.appium.java_client.ios.IOSDriver;
 import junit.framework.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 import screens.ios.SearchResultScreen;
@@ -15,11 +16,11 @@ import screens.ios.SearchScreen;
 public class BudgetSearchTest extends iOSBaseTest {
 
     @Test(dataProvider = "ios")
-    public void budgetSearchTest(IOSDriver driver) throws InterruptedException {
-        setUp(driver);
+    public void budgetSearchTest(DesiredCapabilities capabilities) throws InterruptedException {
+        setUp(capabilities, this.getClass());
 
         loginScreen.acceptNotificationsButton();
-        loginScreen.login();
+        loginScreen.defaultLogin();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id(loginScreen.usernameEditTextId)));
 
         SearchScreen searchScreen = new SearchScreen(driver);
@@ -30,6 +31,6 @@ public class BudgetSearchTest extends iOSBaseTest {
         searchScreen.tapSearchButton();
 
         SearchResultScreen searchResultScreen = new SearchResultScreen(driver);
-        Assert.assertTrue(searchResultScreen.getFavoriteButtonsIdle().size() >= 1);
+        Assert.assertTrue(searchResultScreen.getFavoriteButtonGridView().size() >= 1);
     }
 }

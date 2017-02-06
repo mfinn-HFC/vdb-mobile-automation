@@ -1,12 +1,17 @@
 package android.registration;
 
+import api.ActivateUserClient;
+import api.User;
 import base.AndroidBaseTest;
 import io.appium.java_client.android.AndroidDriver;
 import junit.framework.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 import screens.android.RegistrationScreen;
+import screens.android.SearchScreen;
+import screens.android.TermsAndConditionsScreen;
 
 /**
  * Created by matt-hfc on 12/14/16.
@@ -14,17 +19,13 @@ import screens.android.RegistrationScreen;
 public class RegistrationTest extends AndroidBaseTest {
 
     @Test(dataProvider = "drivers")
-    public void registrationTest(AndroidDriver driver) throws InterruptedException {
-        setUp(driver);
+    public void registrationTest(DesiredCapabilities capabilities) throws InterruptedException {
+        setUp(capabilities, this.getClass());
         waitForBugReportPromptToClose();
+        registerActivateNewUser();
 
-        loginScreen.getSignUpButton().click();
-        RegistrationScreen registrationScreen = new RegistrationScreen(driver);
-
-        registrationScreen.fillRegistrationForm(generateEmail());
-        registrationScreen.getSignUpButton().click();
-
-        wait.until(ExpectedConditions.visibilityOf(loginScreen.getUsernameEditText()));
-        Assert.assertTrue(driver.findElement(By.name("Thank you!")).isDisplayed());
+        TermsAndConditionsScreen termsAndConditionsScreen = loginScreen.loginNewUser(user);
+        SearchScreen searchScreen = termsAndConditionsScreen.acceptTerms();
+        Assert.assertTrue(searchScreen.getSearchButton().isDisplayed());
     }
 }
