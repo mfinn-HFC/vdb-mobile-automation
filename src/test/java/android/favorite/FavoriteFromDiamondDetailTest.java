@@ -1,17 +1,14 @@
 package android.favorite;
 
 import base.AndroidBaseTest;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.android.AndroidKeyCode;
 import junit.framework.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import screens.android.*;
 import screens.android.DiamondViewScreen;
-import screens.android.SearchResultScreen;
 import screens.android.SearchScreen;
 import screens.android.TermsAndConditionsScreen;
 
@@ -21,30 +18,26 @@ import screens.android.TermsAndConditionsScreen;
  */
 public class FavoriteFromDiamondDetailTest extends AndroidBaseTest {
 
-    private final String mp4DiamondCertNumber = "6241438392";
-    private final String mp4DiamondTitle = "CU 1.41 F SI2";
+    private final String mp4DiamondCertNumber = "5556664536";
+    private final String mp4DiamondTitle = "PS 4.05 D SI2";
 
-    @Test(dataProvider = "drivers")
-    public void favoriteFromDiamondViewTest(DesiredCapabilities capabilities) throws InterruptedException {
-        setUp(capabilities, this.getClass());
+    public FavoriteFromDiamondDetailTest(DesiredCapabilities capabilities) {
+        super(capabilities);
+    }
+
+    @Test
+    public void favoriteFromDiamondViewTest() throws InterruptedException {
         waitForBugReportPromptToClose();
         registerActivateNewUser();
 
         TermsAndConditionsScreen termsAndConditionsScreen = loginScreen.loginNewUser(user);
         SearchScreen searchScreen = termsAndConditionsScreen.acceptTerms();
+        wait.until(ExpectedConditions.visibilityOf(searchScreen.getLabButton()));
         searchScreen.getLabButton().click();
         searchScreen.getCertNumberField().sendKeys(mp4DiamondCertNumber);
-        // Hide keyboard triggers the search, no need to tap search button
-        hideKeyboard();
 
-        try {
-            searchScreen.getSearchButton().click();
-        }
-        catch (NoSuchElementException e)
-        {
-            System.out.println("Click did not work - dismissKeyboard()" +
-                    "may have triggered the search on its own");
-        }
+        // Need to hit 'Search' key on keyboard
+        driver.pressKeyCode(AndroidKeyCode.ENTER);
 
         DiamondViewScreen diamondViewScreen = new DiamondViewScreen(driver);
         diamondViewScreen.waitForElement(diamondViewScreen.getFavoriteButton());
@@ -57,10 +50,10 @@ public class FavoriteFromDiamondDetailTest extends AndroidBaseTest {
         searchScreen.getHamburgerMenuButton().click();
         searchScreen.getCollectionsHamburgerOption().click();
         FavoriteScreen favoriteScreen = new FavoriteScreen(driver);
-        Assert.assertTrue(favoriteScreen.getLovedCheckboxes().size() >= 1);
+        Assert.assertTrue(favoriteScreen.getLovedCheckboxes().size() == 1);
 
         boolean titleIsPresent = false;
-        for(AndroidElement e : favoriteScreen.getDiamondDescriptions())
+        for(RemoteWebElement e : favoriteScreen.getDiamondDescriptions())
         {
             if(e.getText().contains(mp4DiamondTitle)) titleIsPresent = true;
         }

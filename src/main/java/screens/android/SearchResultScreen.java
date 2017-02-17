@@ -7,8 +7,7 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
-import org.apache.tools.ant.taskdefs.condition.And;
-import org.openqa.selenium.By;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.PageFactory;
 import screens.AndroidBaseScreen;
 import screens.android.data.ColorDepth;
@@ -70,7 +69,7 @@ public class SearchResultScreen extends AndroidBaseScreen {
     private AndroidElement refineDoneButton;
 
     public SearchResultScreen(AndroidDriver driver) {
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(new AppiumFieldDecorator(this.driver), this);
     }
 
@@ -134,14 +133,17 @@ public class SearchResultScreen extends AndroidBaseScreen {
         return refineDoneButton;
     }
 
-    public AndroidElement getColorDepth(ColorDepth colorDepth)
+    public void clickColorDepth(ColorDepth colorDepth)
     {
-        for(AndroidElement e : colorDepthButtons)
+        boolean found = false;
+        for(RemoteWebElement e : colorDepthButtons)
         {
-            if(e.getText().contains(colorDepth.getName())) return e;
+            if(e.getText().contains(colorDepth.getName())) e.click();
         }
-        System.out.println("Color depth button not found!");
-        return null;
+        if(!found)
+        {
+            System.out.println("Color depth button not found!");
+        }
     }
 
     public void waitForResultsToLoad() throws InterruptedException

@@ -34,7 +34,7 @@ public class FavoriteScreen extends AndroidBaseScreen {
     private List<AndroidElement> diamondDescriptions;
 
     public FavoriteScreen(AndroidDriver driver) {
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(new AppiumFieldDecorator(this.driver), this);
     }
 

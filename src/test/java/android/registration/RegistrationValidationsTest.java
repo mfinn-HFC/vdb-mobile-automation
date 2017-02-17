@@ -1,9 +1,11 @@
 package android.registration;
 
 import base.AndroidBaseTest;
-import io.appium.java_client.android.AndroidDriver;
+import enums.SwipeDirection;
+import io.appium.java_client.TouchAction;
+import junit.framework.Assert;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import screens.android.RegistrationScreen;
 
 /**
@@ -11,16 +13,27 @@ import screens.android.RegistrationScreen;
  */
 public class RegistrationValidationsTest extends AndroidBaseTest {
 
-    @Test(dataProvider = "drivers")
-    public void registrationValidationsTest(DesiredCapabilities capabilities) throws InterruptedException {
-        setUp(capabilities, this.getClass());
+    public RegistrationValidationsTest(DesiredCapabilities capabilities) {
+        super(capabilities);
+    }
+
+    @Test
+    public void registrationValidationsTest() throws InterruptedException {
         waitForBugReportPromptToClose();
 
         loginScreen.getSignUpButton().click();
         RegistrationScreen registrationScreen = new RegistrationScreen(driver);
-
         hideKeyboard();
+
+        try {
+            registrationScreen.swipeByPercent(40, SwipeDirection.DOWN);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            TouchAction touchAction = new TouchAction(driver);
+            touchAction.press(registrationScreen.getStreetAddressField()).moveTo(registrationScreen.getFullNameField()).release().perform();
+        }
+
         registrationScreen.getSignUpButton().click();
-        Thread.sleep(1000);
+        Assert.assertFalse(loginScreen.getLoginButton().isDisplayed());
     }
 }

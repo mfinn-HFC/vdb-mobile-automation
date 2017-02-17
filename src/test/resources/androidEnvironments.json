@@ -1,16 +1,11 @@
 {
   "remote" : "true",
-  "testServer" : "http://appium.testdroid.com/wd/hub",
+  "testServer" : "http://appium.testobject.com/wd/hub",
   "capabilities": [
     {
-      "testdroid_app": "https://www.dropbox.com/s/nrtpo45vnzpxks5/vdb-1.6.5.2-20161212-build-324-stage-release.apk?dl=1",
-      "remote": "true",
-      "testdroid_apiKey": "hfHSWkfO8BRB1Tr63MzSWUSAwk0s0V4o",
-      "testdroid_target": "android",
-      "testdroid_project": "VDB Android",
-      "testdroid_testrun": "",
-      "testdroid_device": "LG Google Nexus 5 6.0.1 -US",
-      "deviceName" : "Android"
+      "testobject_api_key" : "532436C44BDD4FA29A6F2863007B294A",
+      "testobject_device" : "",
+      "testobject_appium_version" : "1.4.13"
     }
   ]
 }

@@ -36,7 +36,7 @@ public class LoginScreen extends AndroidBaseScreen {
     private AndroidElement forgotPasswordButton;
 
     public LoginScreen(AndroidDriver driver) {
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(new AppiumFieldDecorator(this.driver), this);
     }
 

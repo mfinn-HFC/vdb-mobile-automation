@@ -24,7 +24,7 @@ public class LandscapeDiamondViewTest extends iOSBaseTest {
 
     @Test(dataProvider = "ios")
     public void landscapeDiamondViewTest(IOSDriver driver) throws InterruptedException {
-        setUp(driver);
+        AndroidBaseTest(driver);
         eyesProvider = new EyesProvider(driver, appName, this.getClass().getSimpleName());
         //eyes = eyesProvider.getEyes();
 

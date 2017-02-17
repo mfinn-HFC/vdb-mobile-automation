@@ -27,7 +27,7 @@ public class DiamondViewScreen extends AndroidBaseScreen {
     private AndroidElement colorParentElement;
 
     public DiamondViewScreen(AndroidDriver driver) {
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(new AppiumFieldDecorator(this.driver), this);
     }
 

@@ -56,7 +56,7 @@ public class iOSBaseTest {
         Object[][] array = null;
         JsonParser parser = new JsonParser();
         JsonElement jsonElement = parser.parse(new FileReader("/Users/matt-hfc/IdeaProjects/vdb-android-automation/src/test/resources/iosEnvironments.json"));
-        testServer = jsonElement.getAsJsonObject().get("testServer").getAsString();
+        //testServer = jsonElement.getAsJsonObject().get("testServer").getAsString();
 
         try
         {
@@ -86,9 +86,9 @@ public class iOSBaseTest {
                 capabilities.setCapability("automationName", "XCUITest");
                 capabilities.setCapability("autoAcceptAlerts", "true");
                 capabilities.setCapability("rotatable", true);
-                driver = new IOSDriver(new URL("http://localhost:4723/wd/hub"), capabilities);
                 array = new Object[1][1];
-                array[0] = new Object[]{ driver };
+                array[0][0] = capabilities;
+                return array;
             }
         }
         catch (Exception e) { System.out.println( e.getMessage() ); array = new Object[1][1]; }
@@ -100,7 +100,8 @@ public class iOSBaseTest {
     {
         try
         {
-            this.driver = (IOSDriver) DriverFactory.getDrivers(capabilities, testServer, clazz);
+            this.driver = new IOSDriver(new URL("http://localhost:4723/wd/hub"), capabilities);
+            //this.driver = (IOSDriver) DriverFactory.getDrivers(capabilities, testServer, clazz);
         }
         catch (MalformedURLException e) { System.out.println(e.getMessage()); }
 

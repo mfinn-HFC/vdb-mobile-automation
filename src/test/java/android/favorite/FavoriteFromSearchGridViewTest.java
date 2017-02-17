@@ -1,11 +1,10 @@
 package android.favorite;
 
 import base.AndroidBaseTest;
-import io.appium.java_client.android.AndroidDriver;
 import junit.framework.Assert;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import screens.android.*;
 import util.factory.EyesProvider;
 
@@ -15,9 +14,12 @@ import util.factory.EyesProvider;
  */
 public class FavoriteFromSearchGridViewTest extends AndroidBaseTest {
 
-    @Test(dataProvider = "drivers")
-    public void favoriteFromSearchGridViewTest(DesiredCapabilities capabilities) throws InterruptedException {
-        setUp(capabilities, this.getClass());
+    public FavoriteFromSearchGridViewTest(DesiredCapabilities capabilities) {
+        super(capabilities);
+    }
+
+    @Test
+    public void favoriteFromSearchGridViewTest() throws InterruptedException {
         eyesProvider = new EyesProvider(driver, appName, this.getClass().getSimpleName());
         eyes = eyesProvider.getEyes();
         waitForBugReportPromptToClose();

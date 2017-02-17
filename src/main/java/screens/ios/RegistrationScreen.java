@@ -8,6 +8,7 @@ import io.appium.java_client.pagefactory.iOSFindBy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import screens.IOSBaseScreen;
@@ -131,8 +132,11 @@ public class RegistrationScreen extends IOSBaseScreen {
         emailField.sendKeys(email);
         confirmEmailField.sendKeys(email);
 
-        passwordField.get(passwordField.size() - 1).sendKeys("happiness4U");
-        confirmPasswordField.get(confirmPasswordField.size() - 1).sendKeys("happiness4U");
+        RemoteWebElement passwordElement = passwordField.get(passwordField.size() - 1);
+        passwordElement.sendKeys("happiness4U");
+
+        passwordElement = confirmPasswordField.get(confirmPasswordField.size() - 1);
+        passwordElement.sendKeys("happiness4U");
         registerButton.click();
     }
 }

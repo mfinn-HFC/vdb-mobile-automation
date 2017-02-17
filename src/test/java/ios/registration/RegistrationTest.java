@@ -31,6 +31,6 @@ public class RegistrationTest extends iOSBaseTest {
         TermsAndConditionsScreen termsAndConditionsScreen = loginScreen.newUserLogin(user);
         Assert.assertTrue(termsAndConditionsScreen.validatePartialTermsAndConditionsText());
         SearchScreen searchScreen = termsAndConditionsScreen.acceptTerms();
-        Assert.assertTrue(searchScreen.getFromValueInput().isDisplayed());
+        Assert.assertTrue(searchScreen.getHamburgerButton().isDisplayed());
     }
 }

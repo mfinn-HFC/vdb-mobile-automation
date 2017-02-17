@@ -7,13 +7,18 @@ allprojects {
         maven { url "https://jitpack.io" }
     }
 }
+
 dependencies {
     compile 'org.apache.httpcomponents:httpclient:4.5.2'
-    compile 'io.appium:java-client:4.1.2'
-    compile 'org.testng:testng:6.9.13.6'
+    compile 'io.appium:java-client:4.1.1'
+    compile 'org.testng:testng:6.10'
     compile 'com.applitools:eyes-selenium-java:2.54'
-    compile 'com.github.mfinn-HFC:automation_scaffold:1.63'
+    compile 'com.github.mfinn-HFC:automation_scaffold:1.210'
+    compile 'org.testobject:testobject-appium-java-api:0.0.26'
+    compile 'org.reflections:reflections:0.9.10'
+    compile 'com.google.guava:guava:21.0'
 }
+
 test {
     useTestNG() {
         suites 'src/test/resources/test_suites.xml'

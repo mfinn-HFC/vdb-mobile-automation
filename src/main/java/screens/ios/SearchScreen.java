@@ -1,5 +1,6 @@
 package screens.ios;
 
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -166,11 +167,15 @@ public class SearchScreen extends IOSBaseScreen {
         return labSearchButton;
     }
 
-    public SearchResultScreen tapSearchButton() {
+    public SearchResultScreen tapSearchButton()
+    {
         int height = driver.manage().window().getSize().getHeight();
         int centerX = driver.manage().window().getSize().getWidth() / 2;
         int fraction = height - (height / 15);
-        driver.tap(1, centerX, fraction, 1);
+
+        TouchAction touchAction = new TouchAction(driver);
+        touchAction.tap(centerX, fraction).release().perform();
+
         return new SearchResultScreen(driver);
     }
 }

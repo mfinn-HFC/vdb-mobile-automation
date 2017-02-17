@@ -1,12 +1,11 @@
 package android.search;
 
 import base.AndroidBaseTest;
-import io.appium.java_client.android.AndroidDriver;
 import junit.framework.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import screens.android.SearchResultScreen;
 import screens.android.SearchScreen;
 
@@ -15,9 +14,12 @@ import screens.android.SearchScreen;
  */
 public class BudgetSearchTest extends AndroidBaseTest {
 
-    @Test(dataProvider = "drivers")
-    public void budgetSearchTest(DesiredCapabilities capabilities) throws InterruptedException {
-        setUp(capabilities, this.getClass());
+    public BudgetSearchTest(DesiredCapabilities capabilities) {
+        super(capabilities);
+    }
+
+    @Test
+    public void budgetSearchTest() throws InterruptedException {
         waitForBugReportPromptToClose();
 
         loginScreen.defaultLogin();
@@ -32,11 +34,9 @@ public class BudgetSearchTest extends AndroidBaseTest {
         wait.until(ExpectedConditions.visibilityOf(searchScreen.getEditToPriceField()));
         searchScreen.getEditToPriceField().sendKeys("100");
 
-        // Keycode for 'Enter' - hideKeyboard was crashing the app in this screen
-        hideKeyboard();
+        driver.hideKeyboard();
         searchScreen.waitForElement(searchScreen.getSearchButton());
-        searchScreen.getSearchButton().click();
-        SearchResultScreen searchResultScreen = new SearchResultScreen(driver);
+        SearchResultScreen searchResultScreen = searchScreen.tapSearchButton();
 
         wait.until(ExpectedConditions.visibilityOf(searchResultScreen.getRefineSearchHeader()));
         searchResultScreen.waitForResultsToLoad();

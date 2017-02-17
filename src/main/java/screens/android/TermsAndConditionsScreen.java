@@ -29,7 +29,7 @@ public class TermsAndConditionsScreen extends AndroidBaseScreen {
 
     public TermsAndConditionsScreen(AndroidDriver driver)
     {
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(new AppiumFieldDecorator(this.driver), this);
     }
 
@@ -38,8 +38,7 @@ public class TermsAndConditionsScreen extends AndroidBaseScreen {
         return acceptButton;
     }
 
-    public SearchScreen acceptTerms()
-    {
+    public SearchScreen acceptTerms() throws InterruptedException {
         waitForElement(acceptButton);
         acceptButton.click();
         return new SearchScreen(driver);

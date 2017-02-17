@@ -1,15 +1,9 @@
 package android.registration;
 
-import api.ActivateUserClient;
-import api.User;
 import base.AndroidBaseTest;
-import io.appium.java_client.android.AndroidDriver;
 import junit.framework.Assert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.annotations.Test;
-import screens.android.RegistrationScreen;
+import org.testng.annotations.*;
 import screens.android.SearchScreen;
 import screens.android.TermsAndConditionsScreen;
 
@@ -18,9 +12,12 @@ import screens.android.TermsAndConditionsScreen;
  */
 public class RegistrationTest extends AndroidBaseTest {
 
-    @Test(dataProvider = "drivers")
-    public void registrationTest(DesiredCapabilities capabilities) throws InterruptedException {
-        setUp(capabilities, this.getClass());
+    public RegistrationTest(DesiredCapabilities capabilities) {
+        super(capabilities);
+    }
+
+    @Test
+    public void registrationTest() throws InterruptedException {
         waitForBugReportPromptToClose();
         registerActivateNewUser();
 

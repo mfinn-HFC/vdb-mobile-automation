@@ -4,6 +4,8 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.PageFactory;
 import screens.AndroidBaseScreen;
 import screens.android.data.RotaryButton;
@@ -46,7 +48,7 @@ public class SearchScreen extends AndroidBaseScreen {
     private List<AndroidElement> rotaryButtons;
 
     public SearchScreen(AndroidDriver driver) {
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(new AppiumFieldDecorator(this.driver), this);
     }
 
@@ -91,12 +93,15 @@ public class SearchScreen extends AndroidBaseScreen {
         return collectionsHamburgerOption;
     }
 
-    public AndroidElement getRotaryButton(RotaryButton button) {
-        for(AndroidElement e : rotaryButtons)
+    public void clickRotaryButton(RotaryButton button) {
+        boolean found = false;
+        for(RemoteWebElement e : rotaryButtons)
         {
-            if(e.getText().contains(button.getName())) return e;
+            if(e.getText().contains(button.getName())) e.click();
         }
-        System.out.println("Rotary button not found!");
-        return null;
+        if(!found)
+        {
+            System.out.println("Rotary button not found!");
+        }
     }
 }
